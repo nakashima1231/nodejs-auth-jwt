@@ -1,7 +1,7 @@
 const { addUser, showUsers, showUserById, deleteUser, updateUser, authUser } = require("../models/userModels");
 
 //hash de criptografia
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
 //web token pra nao logar toda hr
@@ -33,7 +33,7 @@ function adicionarUser(req, res) {
 
         addUser(user, (err, result) => {
             if(err) {
-                return res.status(500).send("Erro ao salvar usuario");
+                return res.status(500).json( { message: "Erro ao salvar usuario" });
             }
             if(result.affectedRows === 1) {
                 return res.status(201).send(
