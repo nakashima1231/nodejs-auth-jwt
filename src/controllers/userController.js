@@ -22,7 +22,7 @@ function adicionarUser(req, res) {
     //criptografar a senha
     bcrypt.hash(password, saltRounds, (err, hash) => {
         if(err) {
-            return res.status(500).send("Erro ao criptografar senha");
+            return res.status(500).json( { message: "Erro ao criptografar senha" });
         }
 
         const user = {
@@ -42,7 +42,7 @@ function adicionarUser(req, res) {
                     id: result.insertId
                     });
             } else {
-                return res.status(500).send("Erro ao salvar usuario");
+                return res.status(500).json({ message: "Erro ao salvar usuario" });
             }
         });
 
@@ -52,7 +52,7 @@ function adicionarUser(req, res) {
 function mostrarUsers(req, res) {
     showUsers((err, rows) => {
         if(err) {
-            return res.status(500).send("Erro ao listar usuarios");
+            return res.status(500).json( {message: "Erro ao listar usuarios"} );
         }
 
         res.json(rows);
@@ -63,10 +63,10 @@ function mostrarUserId(req, res) {
     const id = req.params.id;
     showUserById(id, (err,rows) => {
         if(err) {
-            return res.status(500).send("Erro ao listar usuario");
+            return res.status(500).json( { message:"Erro ao listar usuario" });
         }
         if(rows.length === 0) {
-            return res.status(404).send("nao ha usuario com esse id");
+            return res.status(404).json( { message:"nao ha usuario com esse id" });
         }
         res.json(rows);
     });
@@ -77,7 +77,7 @@ function deletarUser(req,res) {
     const id = req.params.id;
     deleteUser(id, (err, result) => {
         if(err) {
-            return res.status(500).send("Erro ao deletar usuarios");
+            return res.status(500).json({ message: "Erro ao deletar usuarios" });
         }
         if(result.affectedRows === 1) {
             return res.status(200).send(
@@ -85,7 +85,7 @@ function deletarUser(req,res) {
                  id: id
                 });
         } else {
-            return res.status(404).send("Erro ao deletar usuario");
+            return res.status(404).json({ message: "Erro ao deletar usuario" });
         }
     });
 }
@@ -97,7 +97,7 @@ function atualizarUser(req, res) {
     //criptografar a senha
     bcrypt.hash(password, saltRounds, (err, hash) => {
         if(err) {
-            return res.status(500).send("Erro ao criptografar senha");
+            return res.status(500).json( { message: "Erro ao criptografar senha" });
         }
 
         const user = {
@@ -108,7 +108,7 @@ function atualizarUser(req, res) {
 
         updateUser(id, user, (err, result) => {
         if(err) {
-            return res.status(500).send("Erro ao atualizar usuarios");
+            return res.status(500).json( { message: "Erro ao atualizar usuarios" });
         }
         if(result.affectedRows === 1) {
             return res.status(200).send(
@@ -116,7 +116,7 @@ function atualizarUser(req, res) {
                  id: id
                 });
         } else {
-            return res.status(404).send("Erro ao atualizar usuario");
+            return res.status(404).json( { message: "Erro ao atualizar usuario" });
         }
         });
     });
