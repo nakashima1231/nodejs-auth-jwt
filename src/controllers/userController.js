@@ -33,7 +33,8 @@ function adicionarUser(req, res) {
 
         addUser(user, (err, result) => {
             if(err) {
-                return res.status(500).json( { message: "Erro ao salvar usuario" });
+                console.log("ERRO REAL:", err);
+                return res.status(500).json({ error: err });
             }
             if(result.affectedRows === 1) {
                 return res.status(201).send(

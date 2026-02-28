@@ -52,4 +52,4 @@ function authUser(email, callback) {
 
 
 
-module.exports = { addUser, showUsers, showUserById, deleteUser, updateUser, updateUser, authUser };
+module.exports = { addUser, showUsers, showUserById, deleteUser, updateUser, authUser };
