@@ -32,12 +32,12 @@ function adicionarUser(req, res) {
         };
 
         addUser(user, (err, result) => {
-            if(err) {
-                console.log("ERRO REAL:", err);
-                return res.status(500).json({ error: err });
+            if (err) {
+                console.log("ERRO REAL DO BANCO:", err);
+                return res.status(500).json({ message: err.message });
             }
             if(result.affectedRows === 1) {
-                return res.status(201).send(
+                return res.status(201).json(
                     {message: "Usuario criado",
                     id: result.insertId
                     });
