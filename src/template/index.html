@@ -132,7 +132,7 @@ function login() {
         return;
     }
 
-    fetch("http://localhost:3000/login", {
+    fetch("/login", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ email, password })
@@ -167,7 +167,7 @@ function register() {
         return;
     }
 
-    fetch("http://localhost:3000/register", {
+    fetch("/register", {
         method: "POST",
         headers: {"Content-type": "application/json"},
         body: JSON.stringify({ name, email, password })
