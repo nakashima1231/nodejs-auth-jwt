@@ -43,8 +43,8 @@ API de autenticação e gerenciamento de usuários construída com **Node.js**, 
 1. Clonar o repositório:
 
 ```bash
-git clone https://github.com/SEU_USUARIO/NOME_REPO.git
-cd NOME_REPO
+git clone https://github.com/nakashima1231/nodejs-auth-jwt
+cd nodejs-auth-jwt
 ```
 2. Instalar dependências:
 
