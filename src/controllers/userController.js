@@ -147,14 +147,15 @@ function verificarUser(req, res) {
             }
 
             //criacao do token
-            const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" })
+            const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" })
 
             return res.status(200).json( {
                 message: "usuario autenticado",
                 token: token,
                 id: user.id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                role: user.role
             });
         });
     });
