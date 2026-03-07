@@ -62,6 +62,12 @@ button:hover {
 </div>
 
 <script>
+    const token = localStorage.getItem("token");
+
+    if(!token){
+        window.location.href = "index.html";
+    }
+
 const name = localStorage.getItem("name");
 const email = localStorage.getItem("email");
 

@@ -1,4 +1,4 @@
-const { addUser, showUsers, showUserById, deleteUser, updateUser, authUser } = require("../models/userModels");
+const { addUser, showUsers, showUserById, deleteUser, updateUser, authUser, promoteUser } = require("../models/userModels");
 
 //hash de criptografia
 const bcrypt = require("bcryptjs");
@@ -180,5 +180,23 @@ function adminController(req, res) {
     });
 }
 
+//promover usuario a admin
+function promoverUser(req,res) {
+    const id = req.params.id;
 
-module.exports = { adicionarUser, mostrarUsers, deletarUser, atualizarUser, verificarUser, dashboard, adminController };
+    promoteUser(id, (err, result) => {
+        if(err) {
+            return res.status(500).json({ message: "Erro ao promover usuarios" });
+        }
+        if(result.affectedRows === 1) {
+            return res.status(200).send(
+                {message: "Usuario promovido",
+                 id: id
+                });
+        } else {
+            return res.status(404).json({ message: "Erro ao promover usuario" });
+        }
+    });
+}
+
+module.exports = { adicionarUser, mostrarUsers, deletarUser, atualizarUser, verificarUser, dashboard, adminController, promoverUser };

@@ -46,7 +46,7 @@ button{
 <tr>
 <th>Nome</th>
 <th>Email</th>
-<th>Ação</th>
+<th>Ações</th>
 </tr>
 </thead>
 
@@ -56,6 +56,11 @@ button{
 <script>
 
 const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
+
+if(!token || role !== "admin"){
+    window.location.href = "index.html";
+}
 
 function carregarUsuarios(){
 
@@ -74,11 +79,13 @@ users.forEach(user=>{
 
 const row=document.createElement("tr");
 
-row.innerHTML=`
+row.innerHTML=`]
+<td>${user.id}</td>
 <td>${user.name}</td>
 <td>${user.email}</td>
 <td>
 <button onclick="deletar(${user.id})">Excluir</button>
+<button onclick="promover(${user.id})">Promover</button>
 </td>
 `;
 
@@ -92,20 +99,41 @@ table.appendChild(row);
 
 function deletar(id){
 
-if(!confirm("Deseja deletar este usuário?")) return;
+    if(!confirm("Deseja deletar este usuário?")) return;
 
-fetch("/users/"+id,{
-method:"DELETE",
-headers:{
-"Authorization":"Bearer "+token
+    fetch("/users/"+id,{
+        method:"DELETE",
+        headers:{
+            "Authorization":"Bearer "+token
+        }
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        alert(data.message);
+        carregarUsuarios();
+    })
+    .catch(err=>console.log(err));
+
 }
-})
-.then(res=>res.json())
-.then(data=>{
-alert(data.message);
-carregarUsuarios();
-})
-.catch(err=>console.log(err));
+
+function promover(id){
+
+    if(!confirm("Promover este usuário para admin?")) return;
+
+    fetch("/users/promote",{
+        method:"PATCH",
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer "+token
+        },
+        body: JSON.stringify({ id:id })
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        alert(data.message);
+        carregarUsuarios();
+    })
+    .catch(err=>console.log(err));
 
 }
 
