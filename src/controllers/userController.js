@@ -189,7 +189,11 @@ function adminController(req, res) {
 
 //promover usuario a admin
 function promoverUser(req,res) {
-    const id = req.params.id;
+    const id = Number(req.params.id);
+
+    if (!id) {
+        return res.status(400).json({ message: "ID inválido" });
+    }
 
     promoteUser(id, (err, result) => {
         if(err) {
