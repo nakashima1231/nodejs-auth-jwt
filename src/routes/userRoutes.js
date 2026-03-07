@@ -16,10 +16,10 @@
     router.get("/users",authMiddleware, mostrarUsers);
 
     //deletar usuario
-    router.delete("/users/:id",authMiddleware, deletarUser);
+    router.delete("/users/:id",authMiddleware, isAdmin, deletarUser);
 
     //atualizar usuario
-    router.put("/users/:id", authMiddleware, atualizarUser);
+    router.put("/users/:id", authMiddleware, isAdmin, atualizarUser);
 
     //perfil do usuario
     router.get("/dashboard", authMiddleware, dashboard);

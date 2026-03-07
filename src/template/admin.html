@@ -2,29 +2,37 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Admin</title>
+<title>Painel Admin</title>
 
 <style>
 body{
     font-family: Arial;
-    background: #f4f4f4;
-    padding: 40px;
+    background:#f4f4f4;
+    padding:40px;
 }
 
 table{
-    width: 400px;
     border-collapse: collapse;
-    background: white;
+    width:500px;
+    background:white;
 }
 
 th, td{
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding:10px;
+    border:1px solid #ccc;
 }
 
 th{
-    background: #004D61;
-    color: white;
+    background:#004D61;
+    color:white;
+}
+
+button{
+    background:#c0392b;
+    color:white;
+    border:none;
+    padding:6px 10px;
+    cursor:pointer;
 }
 </style>
 </head>
@@ -38,6 +46,7 @@ th{
 <tr>
 <th>Nome</th>
 <th>Email</th>
+<th>Ação</th>
 </tr>
 </thead>
 
@@ -48,31 +57,59 @@ th{
 
 const token = localStorage.getItem("token");
 
-fetch("/users", {
-    headers: {
-        "Authorization": "Bearer " + token
+function carregarUsuarios(){
+
+fetch("/users",{
+    headers:{
+        "Authorization":"Bearer "+token
     }
 })
-.then(res => res.json())
-.then(users => {
+.then(res=>res.json())
+.then(users=>{
 
-    const table = document.getElementById("userTable");
+const table = document.getElementById("userTable");
+table.innerHTML="";
 
-    users.forEach(user => {
+users.forEach(user=>{
 
-        const row = document.createElement("tr");
+const row=document.createElement("tr");
 
-        row.innerHTML = `
-            <td>${user.name}</td>
-            <td>${user.email}</td>
-        `;
+row.innerHTML=`
+<td>${user.name}</td>
+<td>${user.email}</td>
+<td>
+<button onclick="deletar(${user.id})">Excluir</button>
+</td>
+`;
 
-        table.appendChild(row);
+table.appendChild(row);
 
-    });
+});
 
+});
+
+}
+
+function deletar(id){
+
+if(!confirm("Deseja deletar este usuário?")) return;
+
+fetch("/users/"+id,{
+method:"DELETE",
+headers:{
+"Authorization":"Bearer "+token
+}
 })
-.catch(err => console.log(err));
+.then(res=>res.json())
+.then(data=>{
+alert(data.message);
+carregarUsuarios();
+})
+.catch(err=>console.log(err));
+
+}
+
+carregarUsuarios();
 
 </script>
 
