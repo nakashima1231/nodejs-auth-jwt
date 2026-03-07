@@ -74,7 +74,14 @@ function mostrarUserId(req, res) {
 
 
 function deletarUser(req,res) {
+    const userId = req.user.id;
     const id = req.params.id;
+
+    if(Number(userId) === Number(id)) {
+        return res.status(400).json({
+            message: "Você não pode excluir sua própria conta"
+        });
+    }
     deleteUser(id, (err, result) => {
         if(err) {
             return res.status(500).json({ message: "Erro ao deletar usuarios" });
