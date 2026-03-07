@@ -52,7 +52,7 @@ function authUser(email, callback) {
 
 //promover a admin
 function promoteUser(id, callback) {
-    d.query(
+    db.query(
         "UPDATE users SET role = 'admin' WHERE id = ?", [id],
         function(err, result) {
             callback(err, result);
