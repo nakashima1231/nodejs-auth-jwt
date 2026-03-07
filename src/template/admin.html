@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Admin</title>
+
+<style>
+body{
+    font-family: Arial;
+    background: #f4f4f4;
+    padding: 40px;
+}
+
+table{
+    width: 400px;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td{
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+th{
+    background: #004D61;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Usuários cadastrados</h2>
+
+<table>
+<thead>
+<tr>
+<th>Nome</th>
+<th>Email</th>
+</tr>
+</thead>
+
+<tbody id="userTable"></tbody>
+</table>
+
+<script>
+
+const token = localStorage.getItem("token");
+
+fetch("/users", {
+    headers: {
+        "Authorization": "Bearer " + token
+    }
+})
+.then(res => res.json())
+.then(users => {
+
+    const table = document.getElementById("userTable");
+
+    users.forEach(user => {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+        `;
+
+        table.appendChild(row);
+
+    });
+
+})
+.catch(err => console.log(err));
+
+</script>
+
+</body>
+</html>

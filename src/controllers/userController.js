@@ -153,7 +153,8 @@ function verificarUser(req, res) {
                 message: "usuario autenticado",
                 token: token,
                 id: user.id,
-                name: user.name
+                name: user.name,
+                email: user.email
             });
         });
     });
@@ -167,5 +168,16 @@ function dashboard(req, res) {
     });
 }
 
+//rota de admin
+function adminController(req, res) {
+    res.json({
+        message: "Área administrativa",
+        user: {
+            id: req.user.id,
+            role: req.user.role
+        }
+    });
+}
 
-module.exports = { adicionarUser, mostrarUsers, deletarUser, atualizarUser, verificarUser, dashboard };
+
+module.exports = { adicionarUser, mostrarUsers, deletarUser, atualizarUser, verificarUser, dashboard, adminController };

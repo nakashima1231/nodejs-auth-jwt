@@ -147,12 +147,18 @@ function login() {
 
         localStorage.setItem("name", result.body.name);
         localStorage.setItem("email", result.body.email);
+        localStorage.setItem("token", result.body.token);
+        localStorage.setItem("role", result.body.role);
 
-        window.location.href = "dashboard.html";
+        if(result.body.role == "admin") {
+            window.location.href = ("admin.html");
+        } else {
+            window.location.href = "dashboard.html";
+        }
     } else {
         alert(result.body.message);
     }
-})
+    })
     .catch(err => console.log(err));
 }
 
