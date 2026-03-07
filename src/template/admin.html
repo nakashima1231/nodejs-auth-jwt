@@ -169,13 +169,12 @@ function deletar(id){
 function promover(id){
     if(!confirm("Promover este usuário para admin?")) return;
 
-    fetch("/users/promote",{
+    fetch(`/admin/${id}/promote`,{
         method:"PATCH",
         headers:{
             "Content-Type":"application/json",
             "Authorization":"Bearer "+token
-        },
-        body: JSON.stringify({ id:id })
+        }
     })
     .then(res=>res.json())
     .then(data=>{
