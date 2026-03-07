@@ -1,4 +1,4 @@
-const { addUser, showUsers, showUserById, deleteUser, updateUser, authUser } = require("../models/userModels");
+const { addUser, showUsers, showUserById, deleteUser, updateUser, authUser, promoteUser } = require("../models/userModels");
 
 //hash de criptografia
 const bcrypt = require("bcryptjs");
@@ -74,7 +74,14 @@ function mostrarUserId(req, res) {
 
 
 function deletarUser(req,res) {
+    const userId = req.user.id;
     const id = req.params.id;
+
+    if(Number(userId) === Number(id)) {
+        return res.status(400).json({
+            message: "Você não pode excluir sua própria conta"
+        });
+    }
     deleteUser(id, (err, result) => {
         if(err) {
             return res.status(500).json({ message: "Erro ao deletar usuarios" });
@@ -147,13 +154,15 @@ function verificarUser(req, res) {
             }
 
             //criacao do token
-            const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" })
+            const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" })
 
             return res.status(200).json( {
                 message: "usuario autenticado",
                 token: token,
                 id: user.id,
-                name: user.name
+                name: user.name,
+                email: user.email,
+                role: user.role
             });
         });
     });
@@ -167,5 +176,38 @@ function dashboard(req, res) {
     });
 }
 
+//rota de admin
+function adminController(req, res) {
+    res.json({
+        message: "Área administrativa",
+        user: {
+            id: req.user.id,
+            role: req.user.role
+        }
+    });
+}
 
-module.exports = { adicionarUser, mostrarUsers, deletarUser, atualizarUser, verificarUser, dashboard };
+//promover usuario a admin
+function promoverUser(req,res) {
+    const id = Number(req.params.id);
+
+    if (!id) {
+        return res.status(400).json({ message: "ID inválido" });
+    }
+
+    promoteUser(id, (err, result) => {
+        if(err) {
+            return res.status(500).json({ message: "Erro ao promover usuarios" });
+        }
+        if(result.affectedRows === 1) {
+            return res.status(200).send(
+                {message: "Usuario promovido",
+                 id: id
+                });
+        } else {
+            return res.status(404).json({ message: "Erro ao promover usuario" });
+        }
+    });
+}
+
+module.exports = { adicionarUser, mostrarUsers, deletarUser, atualizarUser, verificarUser, dashboard, adminController, promoverUser };

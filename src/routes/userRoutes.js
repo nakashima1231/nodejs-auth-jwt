@@ -1,9 +1,9 @@
     const express = require("express");
     const router = express.Router();
-    const { adicionarUser, mostrarUsers, deletarUser, atualizarUser, verificarUser, dashboard } = require("../controllers/userController");
+    const { adicionarUser, mostrarUsers, deletarUser, atualizarUser, verificarUser, dashboard, adminController, promoverUser } = require("../controllers/userController");
 
     //verificacao de rota
-    const authMiddleware = require("../middlewares/authMiddleware");
+    const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 
 
     //login
@@ -16,12 +16,18 @@
     router.get("/users",authMiddleware, mostrarUsers);
 
     //deletar usuario
-    router.delete("/users/:id",authMiddleware, deletarUser);
+    router.delete("/users/:id",authMiddleware, isAdmin, deletarUser);
 
     //atualizar usuario
-    router.put("/users/:id", authMiddleware, atualizarUser);
+    router.put("/users/:id", authMiddleware, isAdmin, atualizarUser);
 
     //perfil do usuario
     router.get("/dashboard", authMiddleware, dashboard);
+
+    //rota de admin
+    router.get("/admin", authMiddleware, isAdmin, adminController);
+
+    //promover usuario pra admin
+    router.patch("/admin/:id/promote", authMiddleware, isAdmin, promoverUser);
 
     module.exports = router;
