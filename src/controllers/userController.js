@@ -1,4 +1,4 @@
-const { addUser, showUsers, showUserById, deleteUser, updateUser, authUser, promoteUser, revokeUserAdmin } = require("../models/userModels");
+const { addUser, showUsers, showUserById, deleteUser, updateUser, authUser, promoteUserAdmin, revokeUserAdmin } = require("../models/userModels");
 
 //hash de criptografia
 const bcrypt = require("bcryptjs");
