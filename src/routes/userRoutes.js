@@ -1,6 +1,6 @@
     const express = require("express");
     const router = express.Router();
-    const { adicionarUser, mostrarUsers, deletarUser, atualizarUser, verificarUser, dashboard, adminController, promoverUser } = require("../controllers/userController");
+    const { adicionarUser, mostrarUsers, deletarUser, atualizarUser, verificarUser, dashboard, adminController, promoverUser, revogarUser  } = require("../controllers/userController");
 
     //verificacao de rota
     const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
@@ -29,5 +29,8 @@
 
     //promover usuario pra admin
     router.patch("/admin/:id/promote", authMiddleware, isAdmin, promoverUser);
+
+    //remover admin de usuario
+    route.patch("/admin/:id/revoke", authMiddleware, isAdmin, revogarUser);
 
     module.exports = router;
