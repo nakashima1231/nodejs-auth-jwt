@@ -142,6 +142,7 @@ function carregarUsuarios(){
                 <td>
                     <button class="excluir" onclick="deletar(${user.id})">Excluir</button>
                     <button class="promover" onclick="promover(${user.id})">Promover</button>
+                    <button class="promover" onclick="revogar(${user.id})">Revogar</button>
                 </td>
             `;
             table.appendChild(row);
@@ -170,6 +171,24 @@ function promover(id){
     if(!confirm("Promover este usuário para admin?")) return;
 
     fetch(`/admin/${id}/promote`,{
+        method:"PATCH",
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer "+token
+        }
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        alert(data.message);
+        carregarUsuarios();
+    })
+    .catch(err=>console.log(err));
+}
+
+function revogar(id){
+    if(!confirm("revogar este usuário para usuario padrao?")) return;
+
+    fetch(`/admin/${id}/revoke`,{
         method:"PATCH",
         headers:{
             "Content-Type":"application/json",
