@@ -51,9 +51,19 @@ function authUser(email, callback) {
 }
 
 //promover a admin
-function promoteUser(id, callback) {
+function promoteUserAdmin(id, callback) {
     db.query(
         "UPDATE users SET role = 'admin' WHERE id = ?", [id],
+        function(err, result) {
+            callback(err, result);
+        }
+    );
+}
+
+//remove a role de admin
+function RevokeUserAdmin(id, callback) {
+    db.query(
+        "UPDATE users SET role = 'user' WHERE id = ?", [id],
         function(err, result) {
             callback(err, result);
         }
