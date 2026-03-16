@@ -61,7 +61,7 @@ function promoteUserAdmin(id, callback) {
 }
 
 //remove a role de admin
-function RevokeUserAdmin(id, callback) {
+function revokeUserAdmin(id, callback) {
     db.query(
         "UPDATE users SET role = 'user' WHERE id = ?", [id],
         function(err, result) {
@@ -72,4 +72,4 @@ function RevokeUserAdmin(id, callback) {
 
 
 
-module.exports = { addUser, showUsers, showUserById, deleteUser, updateUser, authUser, promoteUser };
+module.exports = { addUser, showUsers, showUserById, deleteUser, updateUser, authUser, promoteUser, revokeUserAdmin };
