@@ -210,4 +210,27 @@ function promoverUser(req,res) {
     });
 }
 
-module.exports = { adicionarUser, mostrarUsers, deletarUser, atualizarUser, verificarUser, dashboard, adminController, promoverUser };
+//remove role admin do usuario
+function revogarUser(req,res) {
+    const id = Number(req.params.id);
+
+    if (!id) {
+        return res.status(400).json({ message: "ID inválido" });
+    }
+
+    revokeUser(id, (err, result) => {
+        if(err) {
+            return res.status(500).json({ message: "Erro ao revogar role" });
+        }
+        if(result.affectedRows === 1) {
+            return res.status(200).send(
+                {message: "Usuario revogado",
+                 id: id
+                });
+        } else {
+            return res.status(404).json({ message: "Erro ao revogar usuario" });
+        }
+    });
+}
+
+module.exports = { adicionarUser, mostrarUsers, deletarUser, atualizarUser, verificarUser, dashboard, adminController, promoverUser, revogarUser };
