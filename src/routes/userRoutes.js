@@ -31,6 +31,6 @@
     router.patch("/admin/:id/promote", authMiddleware, isAdmin, promoverUser);
 
     //remover admin de usuario
-    route.patch("/admin/:id/revoke", authMiddleware, isAdmin, revogarUser);
+    router.patch("/admin/:id/revoke", authMiddleware, isAdmin, revogarUser);
 
     module.exports = router;
