@@ -1,4 +1,4 @@
-const { addUser, showUsers, showUserById, deleteUser, updateUser, authUser, promoteUser } = require("../models/userModels");
+const { addUser, showUsers, showUserById, deleteUser, updateUser, authUser, promoteUser, revokeUserAdmin } = require("../models/userModels");
 
 //hash de criptografia
 const bcrypt = require("bcryptjs");
@@ -218,7 +218,7 @@ function revogarUser(req,res) {
         return res.status(400).json({ message: "ID inválido" });
     }
 
-    revokeUser(id, (err, result) => {
+    revokeUserAdmin(id, (err, result) => {
         if(err) {
             return res.status(500).json({ message: "Erro ao revogar role" });
         }
