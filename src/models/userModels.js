@@ -72,4 +72,4 @@ function revokeUserAdmin(id, callback) {
 
 
 
-module.exports = { addUser, showUsers, showUserById, deleteUser, updateUser, authUser, promoteUser, revokeUserAdmin };
+module.exports = { addUser, showUsers, showUserById, deleteUser, updateUser, authUser, promoteUserAdmin, revokeUserAdmin };
