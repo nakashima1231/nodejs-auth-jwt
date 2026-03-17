@@ -189,18 +189,25 @@ function revogar(id){
     if(!confirm("revogar este usuário para usuario padrao?")) return;
 
     fetch(`/admin/${id}/revoke`,{
-        method:"PATCH",
-        headers:{
-            "Content-Type":"application/json",
-            "Authorization":"Bearer "+token
-        }
+    method:"PATCH",
+    headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer "+token
+    }
     })
-    .then(res=>res.json())
-    .then(data=>{
+    .then(res => {
+        if (!res.ok) {
+            return res.json().then(err => { throw err });
+        }
+        return res.json();
+    })
+    .then(data => {
         alert(data.message);
         carregarUsuarios();
     })
-    .catch(err=>console.log(err));
+    .catch(err => {
+        alert(err.message || "Erro ao revogar");
+    });
 }
 
 carregarUsuarios();
